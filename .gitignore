@@ -1,0 +1,8 @@
+﻿.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.idea/
+.vscode/
+logs/
+backend/config/modelscope_token.txt
