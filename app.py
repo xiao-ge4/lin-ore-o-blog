@@ -1,7 +1,7 @@
 import os
 
 # 复用我们在 deploy/gradio_app.py 中定义的 Gradio Blocks 实例
-from deploy.gradio_app import demo as gradio_demo
+from gradio_app import demo as gradio_demo
 
 # 有的托管平台直接查找变量名为 app 的对象；因此兼容暴露一个同名引用
 app = gradio_demo
