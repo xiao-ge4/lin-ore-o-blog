@@ -1,0 +1,199 @@
+<template>
+  <div class="soul-talkbuddy-wrapper">
+    <!-- 原生 Soul TalkBuddy 界面 -->
+    <div id="soul-app">
+      <header class="app-header">
+        <div class="title">
+          <img src="https://static.thenounproject.com/png/4595375-200.png" alt="logo" class="logo"/>
+          <span>Soul TalkBuddy - AI社交对话教练</span>
+        </div>
+        <div class="actions">
+          <div class="relation">
+            <span>关系晴雨表</span>
+            <div class="meter"><div id="relBar" class="meter-bar" style="width:50%"></div></div>
+            <span id="relText">50</span>
+          </div>
+          <button id="btnPersona" class="primary">MBTI / 八维</button>
+        </div>
+      </header>
+
+      <main class="container">
+        <aside id="scenarioPanel" class="persona">
+          <h3>场景与角色</h3>
+          <div class="toggle"><label><input type="checkbox" id="scenarioEnabled" /> 使当前场景生效</label></div>
+          <div class="toggle" style="margin-top:6px;"><label><input type="checkbox" id="scenarioAutoAnalyze" /> 自动分析</label></div>
+          <div style="margin-top:12px; padding-top:12px; border-top:1px solid #eee;">
+            <label>对手难度</label>
+            <select id="opponentDifficulty" class="small" style="width:100%; margin-top:4px;">
+              <option value="friendly">友善模式 - 总是积极回应</option>
+              <option value="realistic" selected>真实模式 - 随机态度</option>
+              <option value="challenging">挑战模式 - 更多拒绝</option>
+              <option value="custom">自定义模式 - 手动选择</option>
+            </select>
+            <div style="font-size:11px; color:#2993d9; margin-top:4px;">控制对方回复的态度分布</div>
+          </div>
+          <div style="margin-top:8px;">
+            <label>选择模板</label>
+            <select id="scenarioTemplate" class="small" style="width:100%; margin-top:4px;">
+              <option value="campus">校园破冰</option>
+              <option value="interview">求职面试</option>
+              <option value="cowork">同事请教</option>
+              <option value="dating">首次约会</option>
+              <option value="reunion">同学聚会</option>
+              <option value="custom" selected>自定义</option>
+            </select>
+          </div>
+          <div style="margin-top:8px;">
+            <label>场景描述</label>
+            <textarea id="scenarioText" rows="3" placeholder="例如：社团招新现场，初次认识一位学弟..."></textarea>
+          </div>
+          <div id="analysisResultBlock" class="hidden">
+            <div style="margin-top:8px;">
+              <label>对方角色称谓</label>
+              <label style="float:right; font-size:12px;"><input type="checkbox" id="lockRoleTitle" /> 锁定</label>
+              <input id="opponentRoleTitle" type="text" placeholder="如 学弟 / 面试官 / 同事" style="width:100%;"/>
+            </div>
+            <div style="margin-top:8px;">
+              <label>对方形象</label>
+              <label style="float:right; font-size:12px;"><input type="checkbox" id="lockTraits" /> 锁定</label>
+              <div id="opponentTraits" class="chips"></div>
+              <input id="opponentTraitsInput" type="text" class="small" placeholder="输入形象短语并回车添加" style="width:100%; margin-top:4px;" />
+            </div>
+            <div style="margin-top:8px;">
+              <label>我的目标</label>
+              <label style="float:right; font-size:12px;"><input type="checkbox" id="lockGoal" /> 锁定</label>
+              <input id="userGoal" type="text" placeholder="如 建立融洽/推进邀约/拿到信息" style="width:100%;"/>
+              <div id="userGoalReason" class="hint" style="font-size:12px; color:#2993d9; margin-top:4px;"></div>
+              <div style="margin-top:6px;"><button id="btnRegenGoal" class="secondary small">重新生成目标</button></div>
+            </div>
+          </div>
+          <div style="margin-top:10px; display:flex; gap:8px;">
+            <button id="btnAnalyzeScenario" class="secondary small">智能分析</button>
+            <button id="btnAnalyzeApplyScenario" class="secondary small">分析并应用</button>
+            <button id="btnApplyScenario" class="primary small">保存并应用</button>
+          </div>
+          <div id="analyzeStatus" style="margin-top:6px; font-size:12px; color:#888;"></div>
+        </aside>
+        <aside id="personaPanel" class="persona hidden">
+          <h3>用户画像</h3>
+          <div id="personaSummary">未设置</div>
+          <div class="toggle">
+            <label><input type="checkbox" id="personaEnabled" /> 应用到建议</label>
+          </div>
+          <button id="btnInfer" class="secondary small">基于会话推断</button>
+        </aside>
+
+        <section class="chat">
+          <div id="scenarioAppliedChip" class="chip hidden" style="margin-bottom:8px; display:flex; gap:8px; align-items:center;">
+            <span id="scenarioAppliedText">未生效</span>
+            <button id="btnEditScenario" class="secondary small">编辑</button>
+            <button id="btnDisableScenario" class="secondary small">停用</button>
+          </div>
+          <div id="openingGuidance" class="hidden" style="margin-bottom:8px; padding:12px; background:#f0f8ff; border-radius:4px; border:1px solid #b3d9ff;">
+            <div style="font-size:14px; margin-bottom:8px;"><strong>开场指引</strong></div>
+            <div id="openingText" style="font-size:13px; color:#555; margin-bottom:8px;">当前场景通常由对方先开场。</div>
+            <div style="display:flex; gap:8px;">
+              <button id="btnLetOpponentStart" class="secondary small">让对方先开场</button>
+              <button id="btnUserStartOverride" class="secondary small">我先开场</button>
+            </div>
+          </div>
+          <div class="tip-row">
+            <button id="btnFetchTip" class="secondary small">提示</button>
+            <div class="tip" id="tipBar">点击"提示"获取建议</div>
+          </div>
+          <div id="messages" class="messages"></div>
+
+          <div id="cands" class="candidates"></div>
+
+          <div class="input-area">
+            <textarea id="draft" rows="2" placeholder="输入消息..."></textarea>
+            <div class="input-actions">
+              <div class="left">
+                <label><input type="checkbox" id="alwaysOn" /> 始终提示</label>
+                <label style="margin-left:8px;"><input type="checkbox" id="aiOpponent" /> AI对手</label>
+              </div>
+              <div class="right">
+                <button id="btnPeer" class="secondary">对方回复</button>
+                <button id="btnSend" class="primary">发送</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- MBTI 弹窗 -->
+      <div id="mbtiModal" class="modal hidden">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>MBTI / 荣格八维</h3>
+            <button id="modalClose" class="icon-btn">×</button>
+          </div>
+          <div class="modal-body">
+            <div id="quizContainer"></div>
+            <div class="modal-actions">
+              <button id="btnSubmitQuiz" class="primary">提交测评</button>
+            </div>
+            <div id="quizResult" class="quiz-result hidden"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { onMounted, onUnmounted } from 'vue'
+
+export default {
+  name: 'SoulTalkBuddy',
+  setup() {
+    let appScript = null
+
+    onMounted(() => {
+      // 动态加载原有的 app.js 逻辑
+      loadSoulApp()
+    })
+
+    onUnmounted(() => {
+      // 清理
+      if (appScript) {
+        document.body.removeChild(appScript)
+      }
+    })
+
+    function loadSoulApp() {
+      // 将会在下一步配置 API_BASE_URL
+      window.SOUL_API_BASE = import.meta.env.VITE_SOUL_API_BASE || 'http://localhost:8000'
+
+      // 动态加载 app.js（我们会在后面创建）
+      appScript = document.createElement('script')
+      appScript.src = '/soul-assets/app.js'
+      appScript.type = 'module'
+      document.body.appendChild(appScript)
+    }
+
+    return {}
+  }
+}
+</script>
+
+<style scoped>
+/* 导入 Soul TalkBuddy - 原版风格 */
+@import '/soul-assets/styles.css';
+
+.soul-talkbuddy-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  margin: 0;
+  padding: 0;
+}
+
+/* Soul 应用容器 */
+#soul-app {
+  isolation: isolate;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+</style>
