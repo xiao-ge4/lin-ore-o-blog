@@ -760,6 +760,12 @@ input[type="checkbox"] {
   font-style: italic;
 }
 
+.readme-container { margin-top: 12px; }
+.readme-toggle { display: inline-flex; align-items: center; gap: 6px; }
+.readme-panel { margin-top: 8px; padding: 12px 16px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px; color: var(--fg); }
+.readme-panel h1, .readme-panel h2, .readme-panel h3 { margin: 0.6em 0 0.4em; }
+.readme-panel p { margin: 0.4em 0; }
+
 /* 响应式 */
 @media (max-width: 1024px) {
   .container {

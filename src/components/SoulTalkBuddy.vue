@@ -177,6 +177,9 @@ export default {
 }
 </script>
 
+<style>
+@import '/soul-assets/styles.css';
+</style>
 <style scoped>
 /* 导入 Soul TalkBuddy - 原版风格 */
 @import '/soul-assets/styles.css';

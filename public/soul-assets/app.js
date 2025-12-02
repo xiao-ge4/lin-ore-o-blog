@@ -827,4 +827,72 @@ updateScenarioChip();
 state.scenario.draft = collectDraftFromDom();
 markScenarioDirty();
 
+// --- ReadM.md 折叠展示（Vue 版） ---
+function createReadmeUi() {
+  const container = document.createElement('div');
+  container.className = 'readme-container';
+  const btn = document.createElement('button');
+  btn.id = 'readmeToggle';
+  btn.className = 'secondary small readme-toggle';
+  btn.innerHTML = '📖 查看 README';
+  const panel = document.createElement('div');
+  panel.id = 'readmePanel';
+  panel.className = 'readme-panel hidden';
+  container.appendChild(btn);
+  container.appendChild(panel);
+  const app = document.getElementById('soul-app');
+  if (app) app.appendChild(container);
+  return { btn, panel };
+}
 
+function ensureMarked() {
+  return new Promise((resolve, reject) => {
+    if (window.marked) return resolve();
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
+    s.onload = () => resolve();
+    s.onerror = (e) => reject(e);
+    document.head.appendChild(s);
+  });
+}
+
+let _readmeLoaded = false;
+async function loadReadme(panel) {
+  try {
+    const res = await fetch('/ReadM.md', { cache: 'no-store' });
+    const md = await res.text();
+    try {
+      await ensureMarked();
+      if (window.marked && window.marked.parse) {
+        panel.innerHTML = window.marked.parse(md);
+      } else if (window.marked) {
+        panel.innerHTML = window.marked(md);
+      } else {
+        panel.innerHTML = md.replace(/\n/g, '<br>');
+      }
+    } catch {
+      panel.innerHTML = md.replace(/\n/g, '<br>');
+    }
+    _readmeLoaded = true;
+  } catch (e) {
+    console.error('Load ReadM.md failed', e);
+    panel.textContent = 'README 加载失败，请稍后重试';
+  }
+}
+
+function initReadme() {
+  const { btn, panel } = createReadmeUi();
+  btn.addEventListener('click', async () => {
+    if (panel.classList.contains('hidden')) {
+      if (!_readmeLoaded) await loadReadme(panel);
+      panel.classList.remove('hidden');
+      btn.innerHTML = '📖 隐藏 README';
+    } else {
+      panel.classList.add('hidden');
+      btn.innerHTML = '📖 查看 README';
+    }
+  });
+}
+
+// 初始化 README 折叠面板
+initReadme();
