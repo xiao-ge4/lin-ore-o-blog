@@ -23,7 +23,7 @@
     
     <div v-show="!isloading && !isClearScreen" :style="xs||sm?{'overflow-y': 'auto','overflow-x': 'hidden'}:{}">
         <v-row>
-            <v-col v-if="$route.path !== '/soul-talkbuddy'" cols="12" md="4" lg="3" class="leleo-left" align="center">
+            <v-col v-if="$route.path !== '/soul-talkbuddy' && $route.path !== '/podcast'" cols="12" md="4" lg="3" class="leleo-left" align="center">
               <div :style="xs||sm?{'font-size':'2.3rem'}:{'display':'none'}" class="leleo-left-welcome">{{ configdata.welcometitle }}</div>
               <v-avatar class="leleo-left-avatar" :size="xs||sm?120:140" :style="xs||sm?{'margin-top': '0'}:{'margin-top': '2rem'}" @mouseenter="musicplayershow(1)" @mouseleave="musicplayershow(0)">
                   <v-img :class="{'leleo-spin':isPlaying}"
@@ -106,8 +106,8 @@
                 </v-container>
             </v-col>
 
-            <!-- Soul TalkBuddy 页面的音乐播放器 -->
-            <v-col v-if="$route.path === '/soul-talkbuddy'" cols="12" md="2" lg="2" class="leleo-left" align="center" style="padding-top: 2rem;">
+            <!-- Soul TalkBuddy / Podcast 页面的音乐播放器 -->
+            <v-col v-if="$route.path === '/soul-talkbuddy' || $route.path === '/podcast'" cols="12" md="2" lg="2" class="leleo-left" align="center" style="padding-top: 2rem;">
               <v-avatar class="leleo-left-avatar" :size="xs||sm?100:120" @mouseenter="musicplayershow(1)" @mouseleave="musicplayershow(0)">
                   <v-img :class="{'leleo-spin':isPlaying}"
                   alt="Leleo"
@@ -142,8 +142,9 @@
                 </v-avatar>
             </v-col>
 
-            <v-col cols="12" :md="$route.path === '/soul-talkbuddy' ? 10 : 8" :lg="$route.path === '/soul-talkbuddy' ? 10 : 9" style="height: 100vh;" :style="xs||sm ?{}:{'overflow': 'auto'}">
+            <v-col cols="12" :md="($route.path === '/soul-talkbuddy' || $route.path === '/podcast') ? 10 : 8" :lg="($route.path === '/soul-talkbuddy' || $route.path === '/podcast') ? 10 : 9" style="height: 100vh;" :style="xs||sm ?{}:{'overflow': 'auto'}">
                 <SoulTalkBuddy v-if="$route.path === '/soul-talkbuddy'" />
+                <PodcastGenerator v-else-if="$route.path === '/podcast'" />
                 <homeright v-else :configdata=configdata :formattedTime=formattedTime
                 :formattedDate=formattedDate :projectcards=projectcards></homeright>
             </v-col>

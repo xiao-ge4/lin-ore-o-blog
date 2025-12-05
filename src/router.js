@@ -5,6 +5,7 @@ const routes = [
   // 但是需要定义路由让vue-router识别路径
   { path: '/', name: 'home' },
   { path: '/soul-talkbuddy', name: 'soul-talkbuddy' },
+  { path: '/podcast', name: 'podcast' },
   { path: '/blog', name: 'blog' },
   { path: '/blog/:id', name: 'blog-detail' }
 ]

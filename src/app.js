@@ -1,5 +1,6 @@
 import homeright from '../src/components/hoemright.vue';
 import SoulTalkBuddy from './components/SoulTalkBuddy.vue';
+import PodcastGenerator from './components/PodcastGenerator.vue';
 import typewriter from './components/typewriter.vue';
 import tab1 from './components/tabs/tab1.vue';
 import tab2 from './components/tabs/tab2.vue';
@@ -14,6 +15,7 @@ import { useDisplay } from 'vuetify'
 export default {
   components: {
     SoulTalkBuddy,
+    PodcastGenerator,
     tab1,tab2,tab3,loader,homeright,typewriter,polarchart
   },
   setup() {
