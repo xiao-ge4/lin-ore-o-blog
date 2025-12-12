@@ -18,11 +18,23 @@
     <div class="main-content">
       <!-- 左侧面板 - 输入区域 -->
       <div class="left-panel">
-        <!-- 模式标签 -->
-        <div class="mode-badge">
-          <span>🎙️</span>
-          <span>AI 播客</span>
+        <!-- 创作模式选择器 -->
+        <div class="creation-mode-selector">
+          <button id="quickModeBtn" class="creation-mode-btn active" onclick="setCreationMode('quick')">
+            <span>⚡</span> 快速模式
+          </button>
+          <button id="interviewModeBtn" class="creation-mode-btn" onclick="setCreationMode('interview')">
+            <span>💬</span> 对话创作
+          </button>
         </div>
+
+        <!-- 快速模式内容 -->
+        <div id="quickModeSection" class="mode-section">
+          <!-- 模式标签 -->
+          <div class="mode-badge">
+            <span>🎙️</span>
+            <span>AI 播客</span>
+          </div>
 
         <!-- 错误提示 -->
         <div id="errorMessage" class="error-message"></div>
@@ -82,37 +94,86 @@
           </div>
           <div class="settings-grid">
             <div class="setting-item">
+              <label class="setting-label">主持人模式</label>
+              <select id="hostModeSelect" class="setting-select">
+                <option value="dual">双人播客</option>
+                <option value="single">单人播客</option>
+              </select>
+            </div>
+            <div class="setting-item">
               <label class="setting-label">播客风格</label>
               <select id="styleSelect" class="setting-select">
-                <option value="news">新闻播报</option>
-                <option value="chat">轻松对话</option>
-                <option value="interview">访谈风格</option>
+                <option value="chat">轻松闲聊</option>
+                <option value="professional">专业深度</option>
                 <option value="story">故事叙述</option>
+                <option value="debate">观点碰撞</option>
+                <option value="educational">科普教学</option>
+                <option value="custom">自定义风格</option>
               </select>
+            </div>
+            <div class="setting-item-full" id="customStyleContainer" style="display: none;">
+              <label class="setting-label">自定义风格描述</label>
+              <textarea 
+                id="customStyleInput" 
+                class="setting-textarea"
+                placeholder="描述你想要的播客风格，例如：像老朋友聊天一样轻松、带点幽默感、偶尔吐槽..."
+                rows="2"
+              ></textarea>
             </div>
             <div class="setting-item">
               <label class="setting-label">开场风格</label>
               <select id="introStyleSelect" class="setting-select">
-                <option value="tongyong">通用</option>
-                <option value="chengzhang">成长</option>
-                <option value="kejigan">科技</option>
-                <option value="shangye">商业</option>
-                <option value="yingshi">影视</option>
-                <option value="zhichang">职场</option>
+                <option value="general">通用</option>
+                <option value="tech">科技</option>
+                <option value="business">商业/财经</option>
+                <option value="life">生活/日常</option>
+                <option value="culture">文化/历史</option>
+                <option value="entertainment">娱乐/轻松</option>
+                <option value="education">教育/学习</option>
+                <option value="health">健康/养生</option>
+                <option value="emotion">情感/心理</option>
+                <option value="growth">个人成长</option>
+                <option value="custom">自定义</option>
               </select>
             </div>
-            <div class="setting-item">
-              <label class="setting-label">主持人 A</label>
-              <select id="voiceA" class="setting-select">
-                <option value="501006:千嶂">501006:千嶂</option>
-              </select>
+            <!-- 自定义片头文案（选择自定义时显示） -->
+            <div class="setting-item-full" id="customIntroContainer" style="display: none;">
+              <label class="setting-label">自定义片头文案</label>
+              <textarea 
+                id="customIntroScript" 
+                class="setting-textarea"
+                placeholder="每行一句，双人模式下奇数行为A、偶数行为B&#10;例如：&#10;欢迎收听本期节目&#10;今天我们来聊一个有趣的话题"
+                rows="4"
+                maxlength="200"
+              ></textarea>
+              <div class="setting-hint">建议不超过200字</div>
             </div>
-            <div class="setting-item">
+            <!-- 自定义片头BGM上传（选择自定义时显示） -->
+            <div class="setting-item-full" id="customIntroBgmContainer" style="display: none;">
+              <label class="setting-label">自定义片头背景音乐（可选）</label>
+              <input type="file" id="customIntroBgm" accept=".mp3,.wav,.m4a" />
+              <div class="setting-hint">不上传则自动匹配合适的背景音乐</div>
+            </div>
+            <div class="setting-item" id="voiceAContainer">
+              <label class="setting-label" id="voiceALabel">主持人</label>
+              <div class="voice-select-wrapper">
+                <select id="voiceA" class="setting-select">
+                  <option value="501006:千嶂">501006:千嶂</option>
+                </select>
+                <button type="button" class="voice-preview-btn" onclick="previewVoice('A')" title="试听">🔊</button>
+              </div>
+            </div>
+            <div class="setting-item" id="voiceBContainer">
               <label class="setting-label">主持人 B</label>
-              <select id="voiceB" class="setting-select">
-                <option value="601007:爱小叶">601007:爱小叶</option>
-              </select>
+              <div class="voice-select-wrapper">
+                <select id="voiceB" class="setting-select">
+                  <option value="601007:爱小叶">601007:爱小叶</option>
+                </select>
+                <button type="button" class="voice-preview-btn" onclick="previewVoice('B')" title="试听">🔊</button>
+              </div>
             </div>
+            <!-- 隐藏的音频播放器用于试听 -->
+            <audio id="voicePreviewAudio" style="display: none;"></audio>
             <div class="setting-item">
               <label class="setting-label">语速</label>
               <select id="ttsSpeed" class="setting-select">
@@ -142,7 +203,7 @@
 
         <!-- 生成按钮 -->
         <button id="generateBtn" class="generate-btn">
-          <span>🎬</span> 生成播客
+          <span>📝</span> 生成脚本
         </button>
 
         <!-- 历史记录 -->
@@ -155,6 +216,128 @@
           </div>
           <div id="historyList" class="history-list">
             <div class="history-empty">暂无历史记录</div>
+          </div>
+        </div>
+        </div>
+        <!-- 快速模式内容结束 -->
+
+        <!-- 对话创作模式内容 -->
+        <div id="interviewModeSection" class="mode-section" style="display: none;">
+          <!-- 对话区域 -->
+          <div class="interview-chat-container">
+            <div class="chat-messages" id="chatMessages">
+              <!-- 欢迎消息将由 JS 动态添加 -->
+            </div>
+            <div class="chat-input-area">
+              <div class="chat-input-wrapper">
+                <textarea 
+                  id="chatInput" 
+                  class="chat-input" 
+                  placeholder="输入消息，与 AI 讨论你的播客想法..."
+                  rows="2"
+                ></textarea>
+                <div class="chat-input-actions">
+                  <div class="material-buttons">
+                    <button class="material-btn" onclick="showMaterialDialog('url')" title="添加网页链接">
+                      <span>🔗</span>
+                    </button>
+                    <button class="material-btn" onclick="showMaterialDialog('document')" title="上传文档">
+                      <span>📄</span>
+                    </button>
+                    <button class="material-btn" onclick="showMaterialDialog('topic')" title="搜索话题">
+                      <span>🔍</span>
+                    </button>
+                  </div>
+                  <button id="sendMessageBtn" class="send-message-btn" onclick="sendInterviewMessage()">
+                    <span>发送</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 侧边信息栏 -->
+          <div class="interview-sidebar">
+            <!-- 对话进度 -->
+            <div class="interview-progress-panel">
+              <div class="panel-title">
+                <span>📊</span> 对话进度
+              </div>
+              <div class="progress-indicator">
+                <div class="progress-depth">
+                  <span class="depth-label">对话深度</span>
+                  <span id="interviewMessageCount" class="depth-value">0</span>
+                  <span class="depth-unit">轮</span>
+                </div>
+                <div class="progress-bar-mini">
+                  <div id="interviewProgressFill" class="progress-fill-mini" style="width: 0%"></div>
+                </div>
+                <div id="interviewProgressHint" class="progress-hint">开始对话，让 AI 了解你的想法</div>
+              </div>
+            </div>
+
+            <!-- 已收集的观点 -->
+            <div class="key-points-panel">
+              <div class="panel-title">
+                <span>💡</span> 已收集的观点
+              </div>
+              <ul id="keyPointsList" class="key-points-list">
+                <li class="empty-hint">对话中提取的观点将显示在这里</li>
+              </ul>
+            </div>
+
+            <!-- 参考素材 -->
+            <div class="materials-panel">
+              <div class="panel-title">
+                <span>📚</span> 参考素材
+              </div>
+              <ul id="materialsList" class="materials-list">
+                <li class="empty-hint">添加的素材将显示在这里</li>
+              </ul>
+            </div>
+
+            <!-- 播客模式选择 -->
+            <div class="interview-host-mode">
+              <div class="panel-title">
+                <span>🎤</span> 播客形式
+              </div>
+              <div class="host-mode-options">
+                <label class="host-mode-option">
+                  <input type="radio" name="interviewHostMode" value="dual" checked onchange="setInterviewHostMode('dual')">
+                  <span class="option-label">双人访谈</span>
+                  <span class="option-desc">主持人 + 嘉宾(你)</span>
+                </label>
+                <label class="host-mode-option">
+                  <input type="radio" name="interviewHostMode" value="single" onchange="setInterviewHostMode('single')">
+                  <span class="option-label">单人分享</span>
+                  <span class="option-desc">以"我"的视角独白</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- 生成按钮 -->
+            <button id="generateFromInterviewBtn" class="generate-interview-btn" onclick="generateFromInterview()">
+              <span>🎙️</span> 生成播客脚本
+            </button>
+          </div>
+        </div>
+        <!-- 对话创作模式内容结束 -->
+
+        <!-- 素材添加对话框 -->
+        <div id="materialDialog" class="material-dialog" style="display: none;">
+          <div class="material-dialog-content">
+            <div class="material-dialog-header">
+              <span id="materialDialogTitle" class="material-dialog-title">添加素材</span>
+              <button class="material-dialog-close" onclick="closeMaterialDialog()">×</button>
+            </div>
+            <div class="material-dialog-body">
+              <input type="text" id="materialInput" class="material-input" placeholder="输入内容...">
+              <input type="file" id="materialFileInput" accept=".pdf,.doc,.docx,.txt" style="display: none;">
+            </div>
+            <div class="material-dialog-footer">
+              <button class="material-dialog-cancel" onclick="closeMaterialDialog()">取消</button>
+              <button id="materialDialogSubmit" class="material-dialog-submit" onclick="submitMaterial()">添加</button>
+            </div>
           </div>
         </div>
       </div>
@@ -192,8 +375,76 @@
 
         <!-- 结果内容 -->
         <div id="resultContent" class="result-content">
-          <!-- 音频播放器 -->
-          <div class="result-card">
+          <!-- 播客脚本（可编辑） -->
+          <div class="result-card" id="scriptCard">
+            <div class="result-card-header">
+              <div class="result-card-title">
+                <span>📜</span> 播客脚本
+                <span id="scriptEditHint" class="edit-hint">（可编辑，确认后点击合成语音）</span>
+              </div>
+              <div class="result-card-actions">
+                <button id="copyScriptBtn" class="copy-btn">
+                  <span>📋</span> 复制
+                </button>
+              </div>
+            </div>
+            <textarea id="scriptEditor" class="script-editor" placeholder="脚本内容..."></textarea>
+            <div id="scriptContent" class="script-content" style="display: none;"></div>
+            <div id="synthesizeSection" class="synthesize-section">
+              <button id="synthesizeBtn" class="synthesize-btn">
+                <span>🎵</span> 合成语音
+              </button>
+              <button id="generatePPTBtn" class="ppt-btn">
+                <span>📊</span> 生成PPT
+              </button>
+              <span class="synthesize-hint">确认脚本内容后，点击合成语音或生成PPT</span>
+            </div>
+          </div>
+
+          <!-- PPT 编辑区域 -->
+          <div class="result-card" id="pptEditorSection" style="display: none;">
+            <div class="result-card-header">
+              <div class="result-card-title">
+                <span>📊</span> PPT 编辑器
+                <span class="edit-hint">（可编辑 Slidev Markdown）</span>
+              </div>
+            </div>
+            <div class="ppt-toolbar">
+              <button id="previewSlidesBtn" class="ppt-toolbar-btn">
+                <span>👁️</span> 预览
+              </button>
+              <button id="exportPdfBtn" class="ppt-toolbar-btn">
+                <span>📄</span> 导出 PDF
+              </button>
+              <button id="exportPptxBtn" class="ppt-toolbar-btn">
+                <span>📊</span> 导出 PPTX
+              </button>
+              <button id="downloadMarkdownBtn" class="ppt-toolbar-btn secondary">
+                <span>⬇️</span> 下载 Markdown
+              </button>
+            </div>
+            <textarea id="slidesMarkdown" class="markdown-editor" placeholder="Slidev Markdown 内容..."></textarea>
+            <div id="pptStatusMessage" class="ppt-status-message"></div>
+          </div>
+
+          <!-- PPT 预览模态框 -->
+          <div id="previewModal" class="preview-modal">
+            <div class="preview-modal-content">
+              <div class="preview-modal-header">
+                <span class="preview-modal-title">幻灯片预览</span>
+                <button id="closePreviewBtn" class="preview-close-btn">×</button>
+              </div>
+              <div class="preview-navigation">
+                <button id="prevSlideBtn" class="nav-btn">◀ 上一页</button>
+                <span id="slideCounter" class="slide-counter">1 / 1</span>
+                <button id="nextSlideBtn" class="nav-btn">下一页 ▶</button>
+              </div>
+              <div id="previewContainer" class="preview-container"></div>
+            </div>
+          </div>
+
+          <!-- 音频播放器（合成后显示） -->
+          <div class="result-card" id="audioCard" style="display: none;">
             <div class="result-card-header">
               <div class="result-card-title">
                 <span>🎧</span> 生成结果
@@ -222,21 +473,6 @@
                 </button>
               </div>
             </div>
-          </div>
-
-          <!-- 播客脚本 -->
-          <div class="result-card">
-            <div class="result-card-header">
-              <div class="result-card-title">
-                <span>📜</span> 播客脚本
-              </div>
-              <div class="result-card-actions">
-                <button id="copyScriptBtn" class="copy-btn">
-                  <span>📋</span> 复制
-                </button>
-              </div>
-            </div>
-            <div id="scriptContent" class="script-content"></div>
           </div>
 
           <!-- 参考来源 -->
