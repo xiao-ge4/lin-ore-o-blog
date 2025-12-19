@@ -1,0 +1,14 @@
+/* Soul TalkBuddy - 浅色主题 */
+:root {
+	--bg: #f8f9fa;
+	--fg: #2c3e50;
+	--muted: #6c757d;
+	--primary: #2196F3;
+	--secondary: #e9ecef;
+	--accent: #FF9800;
+	--danger: #f44336;
+	--success: #4CAF50;
+	--border: #dee2e6;
+	--card-bg: #ffffff;
+	--shadow: rgba(0, 0, 0, 0.08);
+}

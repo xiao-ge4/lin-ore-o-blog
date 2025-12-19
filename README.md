@@ -1,120 +1,106 @@
-# Soul TalkBuddy｜灵感搭子 💬✨
+# leleo-home-page 个人主页
 
-**和会“回”的AI一起练聊天，边聊边更会聊** 😎👉🗣️
+## 目录
+- [项目简介](#项目简介)
+- [功能特性](#功能特性)  
+- [演示地址](#演示地址)
+- [技术栈](#技术栈)
+- [安装与运行](#安装与运行)
+  - [本地运行](#本地运行)
+  - [Vercel在线部署](#vercel在线部署)
+- [配置文件](#配置文件)
 
-一个面向Z世代的社交对话练习场，通过AI对手实战 + 实时建议，帮你把社交焦虑变成可练的肌肉记忆。
 
----
+## 项目简介
 
-## 🎯 项目定位
+这是一个简单的个人主页项目，用于展示个人信息、技能、项目等。主页设计简洁、响应式，适合在不同设备上浏览。支持自定义配置。
 
-**功能**：AI对话练习场 + 实时建议引擎 + MBTI个性化定制
+<img src="./img/leleo-home-page/1737532219807.png" width="600" alt="桌面端预览" style="display: block; margin: 10px auto;border-radius:8px;">
+<img src="./img/leleo-home-page/1737533474493.png" width="170" alt="移动端预览" style="display: block; margin: 10px auto;border-radius:8px;">
+<img src="./img/leleo-home-page/1737532290584.png" width="600" alt="功能预览1" style="display: block; margin: 10px auto;border-radius:8px;">
+<img src="./img/leleo-home-page/1737532316302.png" width="600" alt="功能预览2" style="display: block; margin: 10px auto;border-radius:8px;">
 
-**目标用户**：
-- 🎓 高校学生（本科/硕士/博士）：想提升社交表达、减少“社死”瞬间
-- 💼 初入职场新人：需要快速适应职场沟通、建立人脉
-- 🌍 社交焦虑人群：希望在一个安全、无压力的环境中练习聊天技巧
-- 🎮 年轻玩家：喜欢AI互动、想探索“人机共创”的社交新玩法
+## 功能特性
 
-**核心价值**：把“不会聊天”变成“可以练习的技能”，让每一次对话都成为成长的机会。
+- **响应式设计**：适配桌面、平板和手机等不同设备
+- **个人信息展示**：包括头像、个性标签、简介、技能等
+- **项目展示**：展示项目，包括项目描述、技术栈和链接  
+- **预览配置**：支持主题、背景壁纸预览（包括动、静态/PC、移动端壁纸设置）以及音乐播放配置
+- **在线部署配置**：支持vercel一键部署及使用vercel环境变量进行在线自定义配置
 
----
+## 演示地址
 
-## ✨ 创新点
+[在线演示](https://leleo.top)
 
-### 1. **实时建议引擎**（Always-on Coaching）
-- 📊 **顶部轻提示**：输入时实时给出“温度建议”（语气/禁忌/可聊锚点）
-- 🎯 **三条候选卡片**：镜像/稳妥/幽默三种风格，点选即用，附“为什么这样建议”的可解释标签
-- 🛡️ **安全不踩雷**：敏感拦截 + 改写兜底，避免“社死”瞬间
+## 技术栈
 
-### 2. **AI对手实战陪练**（Simulated Social Practice）
-- 🤖 **多风格AI对手**：自然/活泼/理性/温和/专业/俏皮/克制，像真人一样陪你练
-- 🔄 **闭环反馈**：我说 → AI回 → 提示 → 采纳 → 效果，形成完整的“模拟实战教学”
-- 📈 **关系晴雨表**：量化互动质量（0-100），实时反馈你的聊天表现
+- **前端**：Vue
+- **UI框架**：Vuetify  
+- **构建工具**：Vite
+- **版本控制**：Git
+- **部署平台**：Vercel
 
-### 3. **MBTI/荣格八维个性化**（Persona-Driven Suggestions）
-- 🧠 **快速测评**：12题快速测评，30秒出结果
-- 🔍 **会话推断**：从聊天记录弱监督推断MBTI，无需手动测评
-- 🎨 **个性化建议**：根据你的八维偏好（Ni/Ne/Si/Se/Ti/Te/Fi/Fe）调整候选措辞
-  - S倾向 → 更具体的例子与步骤
-  - N倾向 → 更多类比与愿景式表述
-  - T倾向 → 更偏逻辑、事实的语气
-  - F倾向 → 更偏共情、情感承接
+## 安装与运行
 
-### 4. **智能语境理解**（Context-Aware Intelligence）
-- ❓ **问句识别**：对方提问时，强制“先回答再补一句”，避免“反问式社死”
-- 🔗 **关键词锚点**：必须承接对方上一条的关键词，确保对话连贯
-- 🌦️ **冷场修复**：超过阈值未互动 → 自动给“续聊锚点”与上下文接力句
+### 本地运行
 
-### 5. **可解释性与复盘**（Explainable & Reflective）
-- 📝 **一键复盘**：对话结束后给出“什么有效/什么下次可改”的简报
-- 🎯 **采纳率追踪**：记录你采纳建议的频率，优化推荐策略
-- 📊 **指标看板**：采纳率、被回复率、对话长度、冷场恢复率等
-
----
-
-## 🛠️ 技术架构
-
-基于 **FastAPI + ModelScope(Qwen/Qwen3-8B)** 的演示项目：
-- 始终提示 + 三条候选卡片 + MBTI/荣格八维测评与会话推断
-
-## 目录结构
-
-```
-backend/
-  main.py
-  requirements.txt
-  config/
-    config.py
-    modelscope_token.txt   # 存放 ModelScope Token（已放置）
-  clients/
-    llm_client.py
-  models/
-    types.py
-  services/
-    suggest_service.py
-    persona_service.py
-    safety_service.py
-    memory_service.py
-frontend/
-  index.html
-  styles.css
-  app.js
-```
-
-## 准备环境
-
-1) 安装依赖
-```bash
-python -m venv .venv
-.venv\Scripts\python -m pip install -r backend\requirements.txt
-```
-
-2) 配置模型
-- 已在 `backend/config/modelscope_token.txt` 放入 ModelScope Token
-- 也可使用环境变量覆盖：
-  - `MODELSCOPE_TOKEN`（优先）
-  - `MODEL_BASE_URL`（默认 `https://api-inference.modelscope.cn/v1`）
-  - `QWEN_MODEL_NAME`（默认 `Qwen/Qwen3-8B`）
-
-## 启动
+1. 克隆仓库：
 
 ```bash
-.venv\Scripts\python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000 --reload
+git clone https://github.com/leleo886/leleo-home-page.git
 ```
 
-<!-- python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000 -->
+2. 进入项目目录：
 
-打开浏览器访问：`http://127.0.0.1:8000/`
+```bash
+cd leleo-home-page
+```
 
-## 使用说明
-- 输入时：上方“温度提示”与下方“三条候选卡片”实时更新
-- 发送前会做一次“强审校”
-- “MBTI/八维”按钮：可做 12 题快速测评；亦可基于会话推断
-- 侧栏可勾选“应用到建议”，将八维偏好用于候选重排与措辞
+3. 安装依赖：
 
-## 注意
-- 用于比赛演示：未做持久化，画像为进程内存；生产需接入数据库与鉴权
-- 安全策略为简化版本（词表/正则/规则），建议结合更强模型策略
+```bash
+npm install
+```
 
+4. 启动开发服务器：
 
+```bash
+npm run dev
+```
+
+### Vercel在线部署
+
+> 无需服务器，点击链接一键在线部署到 [Vercel](https://vercel.com/new/clone?s=https://github.com/leleo886/leleo-home-page.git)（首先需要有github和vercel账号）
+
+![Vercel部署步骤1](./img/leleo-home-page/1737785497852.png)
+
+> ---登录vercel账号，并选择github关联账号，为项目取个名字，然后点击"Create"按钮开始部署
+
+![Vercel部署完成](./img/leleo-home-page/1737538980894.png)
+
+> ---部署完成后，点击回到控制面板
+
+![Vercel控制面板](./img/leleo-home-page/1737539171658.png)
+
+注意：Vercel提供的`.vercel.app`域名在中国大陆地区可能无法访问，所以建议绑定自定义域名。（若没有自己的域名，这里提供简单的[免费二级域名服务](https://sds.leleo.top)及本项目如何进行域名绑定的[说明](./img/domainToVercel.md)）
+
+## 配置文件
+
+方法1. 自己动手，有点麻烦
+> 自定义数据文件为项目src目录下面的 config.js，这里有[配置说明](./img/config.md)，然后就是代码的拉取、修改上传。
+
+方法2. vercel 环境变量，直接在线修改
+<p style="color: red;font-size:14px;">注意：此方法优先级高于方法1，若使用方法1请勿配置vercel环境变量</p> 
+
+> (1). 首先还是打开vercel中本项目主面板，然后依次点击`Settings`、`Environments`、`Production`
+![Vercel控制面板](./img/leleo-home-page/1737624788108.png)
+
+> (2). 然后下翻点击`Add Environment Variable`按钮，要求填入`Key`值为`VITE_CONFIG`,`Value`值如[环境变量值](./img/env.md)所示，全部复制粘贴即可（有点多），根据个人情况自定义修改，配置说明同方法1。
+![Vercel控制面板](./img/leleo-home-page/1737625015472.png)
+
+<p style="color: red;font-size:20px;margin-top:40px;">注意:</p>
+
+每次修改环境变量后还需重新部署，否则数据无法更新。重新部署如下图，依次点击`Project`、`Build Logs`，进入新页面后再找到`Redeploy`。最后等待重新部署完成即可。
+
+![Vercel控制面板](./img/leleo-home-page/1737626184576.png)
+![Vercel控制面板](./img/leleo-home-page/1737626397809.png)
