@@ -10,13 +10,15 @@ from backend.models.types import (
 	MBTISubmitRequest, MBTISubmitResponse,
 	MBTIInferRequest, MBTIInferResponse,
 	PersonaState,
-	PeerReplyRequest, PeerReplyResponse
+	PeerReplyRequest, PeerReplyResponse,
+	ScenarioInput, ScenarioContext
 )
 from backend.services.suggest_service import handle_suggest
 from backend.services.persona_service import compute_mbti_submit
 from backend.clients.llm_client import infer_mbti_from_chat
 from backend.services.memory_service import get_persona_state, apply_persona_state
 from backend.services.peer_service import generate_peer_reply
+from backend.services.scenario_service import analyze_scenario
 
 app = FastAPI(title="Soul-Agent Demo", version="0.1.0")
 
@@ -62,6 +64,12 @@ def api_apply_persona(state: PersonaState):
 @app.post("/api/peer/reply", response_model=PeerReplyResponse)
 def api_peer_reply(req: PeerReplyRequest):
 	return generate_peer_reply(req)
+
+
+# 场景分析
+@app.post("/api/scenario/analyze", response_model=ScenarioContext)
+def api_scenario_analyze(req: ScenarioInput):
+	return analyze_scenario(req)
 
 
 # 静态资源（前端）

@@ -16,6 +16,11 @@ body {
 	background: var(--bg);
 	color: var(--fg);
 }
+/* 重置所有 button 的默认样式，防止浏览器默认样式覆盖 */
+button {
+	color: inherit;
+	font-family: inherit;
+}
 
 .app-header {
 	display: flex; justify-content: space-between; align-items: center;
@@ -31,8 +36,25 @@ body {
 .meter-bar { height: 100%; background: linear-gradient(90deg, #6ea8fe, #51cf66); }
 
 .primary, .secondary, .icon-btn {
-	background: var(--primary); color: #000; border: none; border-radius: 8px;
+	background: var(--primary); color: #000 !important; border: none; border-radius: 8px;
 	padding: 10px 14px; cursor: pointer; font-weight: 600;
+}
+/* 强制所有 primary 按钮文字为黑色 */
+button.primary,
+button#btnPersona.primary,
+button#btnSend.primary,
+button#btnApplyScenario.primary,
+button#btnSubmitQuiz.primary,
+button.primary:hover,
+button.primary:active,
+button.primary:focus,
+button.primary:visited,
+.primary,
+.primary:hover,
+.primary:active,
+.primary:focus,
+.primary:visited {
+	color: #000 !important;
 }
 .secondary { background: var(--secondary); color: var(--fg); }
 .small { padding: 6px 10px; font-size: 12px; }
@@ -109,8 +131,162 @@ textarea {
 /* 修复：当 modal 同时带有 hidden 类时，强制隐藏 */
 .modal.hidden { display: none !important; }
 
+/* 回复选择卡片UI */
+.reply-selection-container {
+	position: fixed;
+	inset: 0;
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.reply-selection-overlay {
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.75);
+	backdrop-filter: blur(4px);
+}
+
+.reply-selection-panel {
+	position: relative;
+	width: min(900px, 90vw);
+	max-height: 80vh;
+	background: #0b0f15;
+	border: 2px solid #2d3950;
+	border-radius: 16px;
+	padding: 20px;
+	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+	overflow-y: auto;
+}
+
+.reply-selection-header {
+	margin-bottom: 16px;
+	text-align: center;
+}
+
+.reply-selection-header h4 {
+	margin: 0;
+	font-size: 18px;
+	color: var(--fg);
+	font-weight: 600;
+}
+
+.reply-selection-cards {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 16px;
+}
+
+.reply-card {
+	background: #0f1520;
+	border: 2px solid #1b2230;
+	border-radius: 12px;
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	transition: all 0.2s ease;
+	cursor: pointer;
+}
+
+.reply-card:hover {
+	border-color: var(--primary);
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(110, 168, 254, 0.2);
+}
+
+.reply-card-header {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.reply-emoji {
+	font-size: 24px;
+	line-height: 1;
+}
+
+.reply-label {
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.reply-text {
+	font-size: 15px;
+	color: var(--fg);
+	line-height: 1.5;
+	min-height: 50px;
+	flex: 1;
+}
+
+.reply-why {
+	font-size: 12px;
+	color: var(--muted);
+	background: rgba(154, 164, 175, 0.08);
+	padding: 8px;
+	border-radius: 6px;
+	border-left: 2px solid var(--muted);
+}
+
+.reply-select-btn {
+	background: var(--primary);
+	color: #000;
+	border: none;
+	border-radius: 8px;
+	padding: 10px 14px;
+	cursor: pointer;
+	font-weight: 600;
+	font-size: 14px;
+	transition: all 0.2s ease;
+}
+
+.reply-select-btn:hover {
+	background: #5a96e6;
+	transform: scale(1.02);
+}
+
+.reply-select-btn:active {
+	transform: scale(0.98);
+}
+
+/* 响应式设计 */
 @media (max-width: 900px) {
 	.container { grid-template-columns: 1fr; }
 	.persona { order: 2; }
+
+	.reply-selection-cards {
+		grid-template-columns: 1fr;
+	}
+
+	.reply-selection-panel {
+		width: 95vw;
+		max-height: 90vh;
+		padding: 16px;
+	}
+}
+
+@media (max-width: 600px) {
+	.reply-card {
+		padding: 12px;
+	}
+
+	.reply-emoji {
+		font-size: 20px;
+	}
+
+	.reply-label {
+		font-size: 13px;
+	}
+
+	.reply-text {
+		font-size: 14px;
+		min-height: 40px;
+	}
+
+	.reply-select-btn {
+		padding: 8px 12px;
+		font-size: 13px;
+	}
 }
 

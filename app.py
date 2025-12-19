@@ -7,9 +7,15 @@ from gradio_app import demo as gradio_demo
 app = gradio_demo
 
 if __name__ == "__main__":
-	# 本地/平台通用启动
-	port = int(os.getenv("PORT", "7860"))
-	# 使用队列避免并发时阻塞，监听 0.0.0.0 以对外暴露
-	gradio_demo.queue().launch(server_name="0.0.0.0", server_port=port)
+	# 本地/平台通用启动：若指定端口则使用，否则交由 Gradio 自动选择空闲端口
+	env_port = os.getenv("GRADIO_SERVER_PORT") or os.getenv("PORT")
+	if env_port:
+		try:
+			port = int(env_port)
+			gradio_demo.queue().launch(server_name="0.0.0.0", server_port=port)
+		except Exception:
+			gradio_demo.queue().launch(server_name="0.0.0.0")
+	else:
+		gradio_demo.queue().launch(server_name="0.0.0.0")
 
 

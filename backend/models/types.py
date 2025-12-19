@@ -40,6 +40,7 @@ class SuggestRequest(BaseModel):
 	peerProfile: Optional[Profile] = None
 	memory: Optional[List[MemoryItem]] = None
 	personaWeights: Optional[PersonaWeights] = None
+	scenario: Optional["ScenarioContext"] = None
 
 
 class Tip(BaseModel):
@@ -111,15 +112,57 @@ class PersonaState(BaseModel):
 class OpponentProfile(BaseModel):
 	style: Optional[str] = "自然"  # 自然/活泼/理性/温和/专业/俏皮/克制
 	persona_hint: Optional[str] = None  # 练习目标或设定（如“新认识、爱徒步”）
+	roleTitle: Optional[str] = None
+	traits: Optional[List[str]] = None
+	domain: Optional[str] = None
+	tone: Optional[str] = None
 
 
 class PeerReplyRequest(BaseModel):
 	conversation: List[ConversationTurn]
 	opponent: Optional[OpponentProfile] = None
 	personaWeights: Optional[PersonaWeights] = None  # 可选，用于影响对手理解用户偏好
+	scenario: Optional["ScenarioContext"] = None
+
+
+class PeerReplyItem(BaseModel):
+	id: str
+	text: str
+	tone: Optional[str] = None
+	why: Optional[str] = None
 
 
 class PeerReplyResponse(BaseModel):
-	text: str
+	text: str  # 兼容旧字段，取第一条回复
+	replies: Optional[List[PeerReplyItem]] = None
 
 
+class UserGoal(BaseModel):
+	goal: Optional[str] = None
+	subgoals: Optional[List[str]] = None
+	successCriteria: Optional[List[str]] = None
+	priority: Optional[str] = None
+	reason: Optional[str] = None
+
+
+class ScenarioFlow(BaseModel):
+	startingParty: Optional[Literal["user", "opponent", "either"]] = "either"
+	openingHints: Optional[List[str]] = None
+
+
+class ScenarioContext(BaseModel):
+	scenario: Optional[str] = None
+	opponent: Optional[OpponentProfile] = None
+	userGoal: Optional[UserGoal] = None
+	constraints: Optional[Dict[str, Any]] = None
+	anchors: Optional[List[str]] = None
+	flow: Optional[ScenarioFlow] = None
+
+
+class ScenarioInput(BaseModel):
+	templateId: Optional[str] = None
+	scenarioText: Optional[str] = None
+	opponentHint: Optional[str] = None
+	userGoalHint: Optional[str] = None
+	mode: Optional[Literal["full", "goal_only"]] = "full"
+	opponentTraits: Optional[List[str]] = None
