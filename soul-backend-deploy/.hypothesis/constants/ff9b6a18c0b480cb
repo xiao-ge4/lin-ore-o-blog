@@ -1,0 +1,4 @@
+# file: C:\Users\Ku\Downloads\LLM\Soul-1\soul-backend-deploy\backend\config\cos_config.py
+# hypothesis_version: 6.148.7
+
+['***', '1', 'SOUL_COS_', 'bucket', 'cos', 'cos_config.ini', 'enabled', 'is_valid', 'on', 'region', 'secret_id', 'secret_key', 'true', 'utf-8', 'yes']

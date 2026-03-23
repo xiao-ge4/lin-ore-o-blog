@@ -1,0 +1,4 @@
+# file: C:\Users\Ku\Downloads\LLM\Soul-1\soul-backend-deploy\backend\config\config.py
+# hypothesis_version: 6.148.7
+
+[', ', 'MODELSCOPE_API_KEY', 'MODELSCOPE_API_TOKEN', 'MODELSCOPE_TOKEN', 'MODEL_BASE_URL', 'MSPACE_API_KEY', 'MSPACE_API_TOKEN', 'MSPACE_TOKEN', 'OPENAI_API_KEY', 'QWEN_MODEL_NAME', 'Qwen/Qwen3-8B', 'config', 'modelscope_token.txt', 'utf-8']

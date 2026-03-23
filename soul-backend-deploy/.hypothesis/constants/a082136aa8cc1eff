@@ -1,0 +1,4 @@
+# file: C:\Users\Ku\Downloads\LLM\Soul-1\soul-backend-deploy\backend\models\user_types.py
+# hypothesis_version: 6.148.7
+
+['login', 'register', '用户昵称，1-6个字符，仅支持中英文']

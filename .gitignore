@@ -3,3 +3,15 @@ dist/
 .DS_Store
 *.log
 .vscode/
+.claude/
+.kiro/
+.venv/
+__pycache__/
+*.pyc
+nul
+
+# 敏感配置文件（不要推送密钥到 GitHub）
+.env
+soul-backend-deploy/backend/config/cos_config.ini
+soul-backend-deploy/backend/config/modelscope_token.txt
+podcast-backend-deploy/config.ini

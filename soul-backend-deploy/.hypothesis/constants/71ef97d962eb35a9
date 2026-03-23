@@ -1,0 +1,4 @@
+# file: C:\Users\Ku\Downloads\LLM\Soul-1\soul-backend-deploy\backend\clients\soul_cos_client.py
+# hypothesis_version: 6.148.7
+
+[0.0, 'Body', 'NoSuchKey', 'Soul COS 未启用', 'conversation', 'created_at', 'current_session', 'get_error_code', 'https', 'id', 'last_login_at', 'name', 'nickname', 'profile.json', 'progress.json', 'relationship_index', 'save_count', 'saves', 'saves_index.json', 'scenario_stats', 'session_count', 'session_history', 'soul', 'total_sessions', 'total_turns', 'updated_at', 'users', 'utf-8']

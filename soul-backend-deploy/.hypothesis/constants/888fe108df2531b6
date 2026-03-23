@@ -1,0 +1,4 @@
+# file: C:\Users\Ku\Downloads\LLM\Soul-1\soul-backend-deploy\backend\clients\llm_client.py
+# hypothesis_version: 6.148.7
+
+[0.0, 0.2, 0.3, 0.6, 0.7, 100, 400, 512, 600, 4000, '\n输入：', 'Fe', 'Fi', 'Ne', 'Ni', 'Se', 'Si', 'Te', 'Ti', '[', 'answer', 'cand', 'confidence', 'content', 'domain', 'enable_thinking', 'enabled', 'extra_body', 'full', 'functions', 'goal', 'goal_only', 'id', 'low', 'mbti', 'mode', 'opponent', 'probe', 'risk', 'role', 'roleTitle', 'scenario', 'stream', 'style', 'subgoals', 'successCriteria', 'system', 'text', 'tone', 'traits', 'user', 'userGoal', 'why', '{', '、', '你是性格与沟通风格分析助手。', '对方', '自然交流', '；对方形象关键词：']
